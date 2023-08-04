@@ -14,6 +14,9 @@ public class PlayerScript : MonoBehaviour
     // Attach player's character controller
     public CharacterController cC;
 
+    // Adding Gravity to the player
+    public float gravity = -9.81f;
+
     // Moving player in the direction where the camera points, and camera moves using the cursor movement
     [Header("Player Script Camera")]
     // Reference to main camera
@@ -24,8 +27,27 @@ public class PlayerScript : MonoBehaviour
     public float smoothTurnTime = 0.1f;
     private float smoothTurnVelocity;
 
+    Vector3 velocity;
+    public Transform surfaceCheck;
+    bool onSurface;
+    public float surfaceDistance = 0.4f;
+    public LayerMask surfaceMask;
+
     // Update Function
     private void Update(){
+        // Check if the player is on the surface or not
+        onSurface = Physics.CheckSphere(surfaceCheck.position, surfaceDistance, surfaceMask);
+
+        // If player is on ground
+        if(onSurface && velocity.y < 0f){
+            // Reset the velocity
+            velocity.y = -2f;
+        }
+
+        // Gravity
+        velocity.y += gravity * Time.deltaTime;
+        cC.Move(velocity * Time.deltaTime);
+        
         // Call the playerMove function
         playerMove();
     }
@@ -48,7 +70,7 @@ public class PlayerScript : MonoBehaviour
             // Adding rotation to the player
             // Atan2() function will convert angle into radians
             // Rad2Deg will convert radians to degrees
-            
+
             // In Unity, playerCamera.eulerAngles.y refers to the rotation angle around the vertical (Y) axis of a GameObject's transform. The eulerAngles property of a transform provides the rotation of the GameObject in terms of three Euler angles: one for each axis (X, Y, and Z).
             // Specifically, playerCamera.eulerAngles.y gives you the rotation angle in degrees around the Y-axis of the playerCamera GameObject. The Y-axis typically represents the vertical axis in Unity's coordinate system. 
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
