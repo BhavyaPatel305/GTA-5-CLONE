@@ -14,6 +14,11 @@ public class PlayerScript : MonoBehaviour
     // Attach player's character controller
     public CharacterController cC;
 
+    // Moving player in the direction where the camera points, and camera moves using the cursor movement
+    [Header("Player Script Camera")]
+    // Reference to main camera
+    public Transform playerCamera;
+
     [Header("Player Jumping & Velocity")]
     // To make the player rotation smooth
     public float smoothTurnTime = 0.1f;
@@ -43,7 +48,10 @@ public class PlayerScript : MonoBehaviour
             // Adding rotation to the player
             // Atan2() function will convert angle into radians
             // Rad2Deg will convert radians to degrees
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            
+            // In Unity, playerCamera.eulerAngles.y refers to the rotation angle around the vertical (Y) axis of a GameObject's transform. The eulerAngles property of a transform provides the rotation of the GameObject in terms of three Euler angles: one for each axis (X, Y, and Z).
+            // Specifically, playerCamera.eulerAngles.y gives you the rotation angle in degrees around the Y-axis of the playerCamera GameObject. The Y-axis typically represents the vertical axis in Unity's coordinate system. 
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
 
             // Get the new angle value using SmoothDampAngle() method
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
@@ -51,9 +59,12 @@ public class PlayerScript : MonoBehaviour
             // Rotate the player using targetAngle
             // What this Quaternion.Euler() does is that it returns a rotation that rotates z degrees around z-axis
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            
+            // Get the new move direction using new targetAngle which includes angles from playerCamera
+            Vector3 moveDirection = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
 
             // Now using character controller, we will move the player
-            cC.Move(direction.normalized * playerSpeed * Time.deltaTime);
+            cC.Move(moveDirection.normalized * playerSpeed * Time.deltaTime);
         }
     }
 }
