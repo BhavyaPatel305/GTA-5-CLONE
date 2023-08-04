@@ -23,6 +23,9 @@ public class PlayerScript : MonoBehaviour
     public Transform playerCamera;
 
     [Header("Player Jumping & Velocity")]
+    // Adding player jump: On pressing space bar, the player should jump
+    public float jumpRange = 1f;
+
     // To make the player rotation smooth
     public float smoothTurnTime = 0.1f;
     private float smoothTurnVelocity;
@@ -47,9 +50,11 @@ public class PlayerScript : MonoBehaviour
         // Gravity
         velocity.y += gravity * Time.deltaTime;
         cC.Move(velocity * Time.deltaTime);
-        
+
         // Call the playerMove function
         playerMove();
+        // Call the Jump function
+        Jump();
     }
     // Method to move the player
     void playerMove(){
@@ -87,6 +92,16 @@ public class PlayerScript : MonoBehaviour
 
             // Now using character controller, we will move the player
             cC.Move(moveDirection.normalized * playerSpeed * Time.deltaTime);
+        }
+    }
+    
+    // Adding Jump to the player
+    void Jump(){
+        // In Unity -> Edit -> Project Settings -> Input Manager -> Axes -> Jump
+        // Here "Jump" is this jump, say in there if instead of space key we change some other key for "Jump" then we would not have to do any changes in this code
+        // If jump key is pressed and player is on surface then jump
+        if(Input.GetButtonDown("Jump") && onSurface){
+            velocity.y = Mathf.Sqrt(jumpRange * -2 * gravity);
         }
     }
 }
