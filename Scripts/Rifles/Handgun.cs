@@ -13,6 +13,13 @@ public class Handgun : MonoBehaviour
     // Basically restrict shooting as we don't want to shoot to infinity distance
     public float shootingRange = 100f;
 
+    // Adding FireCharge
+    // It means that out player will shoot quickly
+    // If fireCharge = 1, means that every 1 second we fire 1 bullet, handgun/player shoots
+    // 2 means we fire 2 bullets in 1 second
+    public float fireCharge = 10f;
+    private float nextTimeToShoot = 0f;
+
     // Adding Muzzle Flash Particle System
     [Header("Rifle Effects")]
     // Reference to muzzle spark
@@ -33,7 +40,12 @@ public class Handgun : MonoBehaviour
     private void Update(){
         // Update function is called every second, but we don't want to shoot every second
         // So whenever a player presses fire button, we shoot(left button of the mouse/cursor)
-        if(Input.GetButtonDown("Fire1")){
+        // if time is greater than next time to shoot
+        if(Input.GetButton("Fire1") && Time.time >= nextTimeToShoot){
+            // Then
+            // If fireCharge = 1, means that every 1 second we fire 1 bullet, handgun/player shoots
+            // 2 means we fire 2 bullets in 1 second
+            nextTimeToShoot =  Time.time + 1f/fireCharge;
             Shoot();
         }
     }
