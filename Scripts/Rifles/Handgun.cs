@@ -18,6 +18,16 @@ public class Handgun : MonoBehaviour
     // Reference to muzzle spark
     public ParticleSystem muzzleSpark;
 
+    // Adding Impact Particle Effect
+    // Adding bullet mark on the object, hit by the bullet
+    // If the object being hit is a metal object than we have metalEffect
+    public GameObject metalEffect;
+
+    // Also whenever we play the game, we want the cursor to be locked
+    private void Awake(){
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
 
     // Update Function
     private void Update(){
@@ -35,7 +45,7 @@ public class Handgun : MonoBehaviour
     void Shoot(){
         // Whenever Shoot() method is called, play the muzzle spark
         muzzleSpark.Play();
-        
+
         // here we store information where our ray-cast has hit
         RaycastHit hitInfo;
         // We use Physics.Raycast() to cast a ray
@@ -58,6 +68,14 @@ public class Handgun : MonoBehaviour
                 // We want to give damage to that object, so we call objectHitDamage() method from Object.cs file
                 // and the amount of damage will be: giveDamage variable
                 obj.objectHitDamage(giveDamage);
+                // Here after damaging the object, show the metal effect
+                // hitInfo.point means at whichever position of the object I shoot the bullet, exactly at that position draw the metal effect
+                // For explanation of Quaternion.LookRotation(hitInfo.normal) watch Link
+                // After few seconds we want this metal effect to be destroyed as we don't want it to be instantiated again and again in the game
+                // For that we store it in a variable named metalEffectGo
+                GameObject metalEffectGo = Instantiate(metalEffect, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+                // 1f to tell that after 1 second of instantiating it, destroy it
+                Destroy(metalEffectGo, 1f);
             }
         }
     }
