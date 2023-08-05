@@ -62,6 +62,8 @@ public class Handgun : MonoBehaviour
     public float shootingRange = 100f;
     // Transform for hand
     public Transform hand;
+    // Solving the problem of player not turning
+    public Transform PlayerTransform;
 
     // Adding FireCharge
     // It means that out player will shoot quickly
@@ -186,11 +188,11 @@ public class Handgun : MonoBehaviour
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
 
             // Get the new angle value using SmoothDampAngle() method
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
+            float angle = Mathf.SmoothDampAngle(PlayerTransform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
 
             // Rotate the player using targetAngle
             // What this Quaternion.Euler() does is that it returns a rotation that rotates z degrees around z-axis
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            PlayerTransform.rotation = Quaternion.Euler(0f, angle, 0f);
             
             // Get the new move direction using new targetAngle which includes angles from playerCamera
             Vector3 moveDirection = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
@@ -263,11 +265,11 @@ public class Handgun : MonoBehaviour
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
 
                 // Get the new angle value using SmoothDampAngle() method
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
+                float angle = Mathf.SmoothDampAngle(PlayerTransform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
 
                 // Rotate the player using targetAngle
                 // What this Quaternion.Euler() does is that it returns a rotation that rotates z degrees around z-axis
-                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                PlayerTransform.rotation = Quaternion.Euler(0f, angle, 0f);
                 
                 // Get the new move direction using new targetAngle which includes angles from playerCamera
                 Vector3 moveDirection = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
