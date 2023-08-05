@@ -151,11 +151,16 @@ public class Handgun : MonoBehaviour
         // So whenever a player presses fire button, we shoot(left button of the mouse/cursor)
         // if time is greater than next time to shoot
         if(Input.GetButton("Fire1") && Time.time >= nextTimeToShoot){
+            // Animations for shooting
+            animator.SetBool("Shoot", true);
             // Then
             // If fireCharge = 1, means that every 1 second we fire 1 bullet, handgun/player shoots
             // 2 means we fire 2 bullets in 1 second
             nextTimeToShoot =  Time.time + 1f/fireCharge;
             Shoot();
+        }else{
+            // If player not shooting
+            animator.SetBool("Shoot", false);
         }
     }
     // FROM PLAYER SCRIPT
@@ -356,10 +361,14 @@ public class Handgun : MonoBehaviour
         setReloading = true;
         // For testing purpose
         Debug.Log("Reloading...");
+        // Animation for reloading
+        animator.SetBool("Reload", true);
         // Wait for 4.3 seconds
         yield return new WaitForSeconds(reloadingTime);
         // When we are done reloading, again debug a message(for testing purpose)
         Debug.Log("Done Reloading...");
+        // After finishing reloading
+        animator.SetBool("Reload", false);
         // Again set the presentAmmunition to maxAmmunition
         presentAmmunition = maximumAmmunition;
         // When finished with reloading, set the setReloading to false
