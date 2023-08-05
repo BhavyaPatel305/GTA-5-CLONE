@@ -20,6 +20,19 @@ public class Handgun : MonoBehaviour
     public float fireCharge = 10f;
     private float nextTimeToShoot = 0f;
 
+    // Adding Ammo System, Mag System and Reloading System
+    [Header("Rifle Ammunition and Reloading")]
+    // Max ammo in 1 magazine will be 25
+    private int maximumAmmunition = 25;
+    // Number of magazine's this handgun will contain 
+    private int mag = 10;
+    // Ammunition that we currently have
+    private int presentAmmunition = 0;
+    // After every 4.3 seconds our handgun will reload one magazine
+    public float reloadingTime = 4.3f;
+    // By default value is false as on starting the game, handgun will not be reloading
+    private bool setReloading = false;
+
     // Adding Muzzle Flash Particle System
     [Header("Rifle Effects")]
     // Reference to muzzle spark
@@ -30,9 +43,11 @@ public class Handgun : MonoBehaviour
     // If the object being hit is a metal object than we have metalEffect
     public GameObject metalEffect;
 
-    // Also whenever we play the game, we want the cursor to be locked
     private void Awake(){
+        // Whenever we play the game, we want the cursor to be locked
         Cursor.lockState = CursorLockMode.Locked;
+        // Whenever the game starts, present ammo will be maximum
+        presentAmmunition = maximumAmmunition;
     }
 
 
@@ -55,6 +70,19 @@ public class Handgun : MonoBehaviour
     // Basically we will shoot a ray cast from our main camera that is following the player
     // in the forward direction and if that ray cast hits some character, then it will cause damage to it
     void Shoot(){
+        // On Shooting, decrease the ammo by 1
+        presentAmmunition--;
+        // If presentAmmunition = 0 means 1 magazine is used, then decrement the mag by 1
+        if(presentAmmunition == 0){
+            mag--;
+        }
+
+        // If mag = 0 means no magazine is left, then show the ammo out text/UI
+        if(mag == 0){
+            // Show the ammo out text/UI
+        }
+
+
         // Whenever Shoot() method is called, play the muzzle spark
         muzzleSpark.Play();
 
