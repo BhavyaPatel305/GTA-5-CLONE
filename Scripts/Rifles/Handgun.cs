@@ -13,6 +13,12 @@ public class Handgun : MonoBehaviour
     // Basically restrict shooting as we don't want to shoot to infinity distance
     public float shootingRange = 100f;
 
+    // Adding Muzzle Flash Particle System
+    [Header("Rifle Effects")]
+    // Reference to muzzle spark
+    public ParticleSystem muzzleSpark;
+
+
     // Update Function
     private void Update(){
         // Update function is called every second, but we don't want to shoot every second
@@ -27,6 +33,9 @@ public class Handgun : MonoBehaviour
     // Basically we will shoot a ray cast from our main camera that is following the player
     // in the forward direction and if that ray cast hits some character, then it will cause damage to it
     void Shoot(){
+        // Whenever Shoot() method is called, play the muzzle spark
+        muzzleSpark.Play();
+        
         // here we store information where our ray-cast has hit
         RaycastHit hitInfo;
         // We use Physics.Raycast() to cast a ray
