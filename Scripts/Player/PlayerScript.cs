@@ -19,6 +19,9 @@ public class PlayerScript : MonoBehaviour
     // Adding Gravity to the player
     public float gravity = -9.81f;
 
+    // Adding the animation to the player
+    public Animator animator;
+
     // Moving player in the direction where the camera points, and camera moves using the cursor movement
     [Header("Player Script Camera")]
     // Reference to main camera
@@ -76,6 +79,13 @@ public class PlayerScript : MonoBehaviour
 
         // direction.magnitude >= 0.1f meaning player is moving
         if(direction.magnitude >= 0.1f){
+
+            // If the player is moving then play some animations 
+            // "Walk", these names should be same as parameters of the animator controller(For Basic Locomotion)
+            animator.SetBool("Walk", true);
+            // If player is walking, we make the running false as we don't want player to run when it is walking
+            animator.SetBool("Running", false);
+
             // Adding rotation to the player
             // Atan2() function will convert angle into radians
             // Rad2Deg will convert radians to degrees
@@ -96,6 +106,18 @@ public class PlayerScript : MonoBehaviour
 
             // Now using character controller, we will move the player
             cC.Move(moveDirection.normalized * playerSpeed * Time.deltaTime);
+
+            // If the player is moving, set jumpRange to 0f
+            // As jumping animation is getting cut-off
+            jumpRange = 0f;
+        }else{
+            // If the player is not moving, then make both walking and running false
+            animator.SetBool("Walk", false);
+            animator.SetBool("Running", false);
+
+            // When player is not moving, we will set the jump range back to 2f
+            // As jumping animation is getting cut-off
+            jumpRange = 1f; 
         }
     }
     
@@ -105,7 +127,17 @@ public class PlayerScript : MonoBehaviour
         // Here "Jump" is this jump, say in there if instead of space key we change some other key for "Jump" then we would not have to do any changes in this code
         // If jump key is pressed and player is on surface then jump
         if(Input.GetButtonDown("Jump") && onSurface){
+            // Adding Jump animation
+            // If we press jump button, then set Idle to false
+            animator.SetBool("Idle", false);
+            // Since Jump is a Trigger, Let's Trigger the jump animation
+            animator.SetTrigger("Jump");
+
             velocity.y = Mathf.Sqrt(jumpRange * -2 * gravity);
+        }else{
+            // When player is done jumping, we want to reset trigger and set the Idle to true
+            animator.SetBool("Idle", true);
+            animator.ResetTrigger("Jump");
         }
     }
 
@@ -130,6 +162,11 @@ public class PlayerScript : MonoBehaviour
 
             // direction.magnitude >= 0.1f meaning player is moving
             if(direction.magnitude >= 0.1f){
+                // If player is sprinting, then set the sprinting/running animation to true
+                // And set Walk animation to false
+                animator.SetBool("Walk", false);
+                animator.SetBool("Running", true);
+
                 // Adding rotation to the player
                 // Atan2() function will convert angle into radians
                 // Rad2Deg will convert radians to degrees
@@ -149,7 +186,19 @@ public class PlayerScript : MonoBehaviour
                 Vector3 moveDirection = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
 
                 // Now using character controller, we will move the player
-                cC.Move(moveDirection.normalized * playerSprint * Time.deltaTime);            
+                cC.Move(moveDirection.normalized * playerSprint * Time.deltaTime); 
+
+                // If the player is moving, set jumpRange to 0f
+                // As jumping animation is getting cut-off
+                jumpRange = 0f;           
+            }else{
+                // If the player is not sprinting then set Walking animation to true and Running animation to false
+                animator.SetBool("Walk", true);
+                animator.SetBool("Running", false);
+
+                // When player is not moving, we will set the jump range back to 2f
+                // As jumping animation is getting cut-off
+                jumpRange = 1f; 
             }    
         }
     }
