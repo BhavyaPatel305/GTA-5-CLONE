@@ -8,6 +8,8 @@ public class PlayerScript : MonoBehaviour
     [Header("Player Movement")]
     // Speed of the player movement
     public float playerSpeed = 1.1f;
+    // Adding sprinting/running functionality to the player
+    public float playerSprint = 5f;
 
     // Player Animator and Gravity
     [Header("Player Animator & Gravity")]
@@ -55,6 +57,8 @@ public class PlayerScript : MonoBehaviour
         playerMove();
         // Call the Jump function
         Jump();
+        // Call the Sprint function
+        Sprint();
     }
     // Method to move the player
     void playerMove(){
@@ -102,6 +106,51 @@ public class PlayerScript : MonoBehaviour
         // If jump key is pressed and player is on surface then jump
         if(Input.GetButtonDown("Jump") && onSurface){
             velocity.y = Mathf.Sqrt(jumpRange * -2 * gravity);
+        }
+    }
+
+    // Adding sprinting/running functionality to the player
+    void Sprint(){
+        // First we need to add a new button named Sprint in Input Manager
+        //In Unity -> Edit -> Project Settings -> Input Manager -> Fire3(rename it to Sprint) & mouse2 from Alt Positive Button
+
+        // If I have pressed left shift key + ^ arrow Key or W + Player is on surface
+        if(Input.GetButton("Sprint") && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) && onSurface){
+            // Get the input from the player
+            // If player press, < arrow key or A key then value = 1
+            // If player press, > arrow key or D key then value = -1
+            float horizontal_axis = Input.GetAxisRaw("Horizontal");
+            // If player press, ^ arrow key or W key then value = 1
+            // If player press, v arrow key or S key then value = -1
+            float vertical_axis = Input.GetAxisRaw("Vertical");
+
+            // Provide direction to the player
+            // X-axis: horizontal_axis, Y-axis: 0f(no movement), Z-axis: vertical_axis
+            Vector3 direction = new Vector3(horizontal_axis, 0f, vertical_axis).normalized;
+
+            // direction.magnitude >= 0.1f meaning player is moving
+            if(direction.magnitude >= 0.1f){
+                // Adding rotation to the player
+                // Atan2() function will convert angle into radians
+                // Rad2Deg will convert radians to degrees
+
+                // In Unity, playerCamera.eulerAngles.y refers to the rotation angle around the vertical (Y) axis of a GameObject's transform. The eulerAngles property of a transform provides the rotation of the GameObject in terms of three Euler angles: one for each axis (X, Y, and Z).
+                // Specifically, playerCamera.eulerAngles.y gives you the rotation angle in degrees around the Y-axis of the playerCamera GameObject. The Y-axis typically represents the vertical axis in Unity's coordinate system. 
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + playerCamera.eulerAngles.y;
+
+                // Get the new angle value using SmoothDampAngle() method
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref smoothTurnVelocity, smoothTurnTime);
+
+                // Rotate the player using targetAngle
+                // What this Quaternion.Euler() does is that it returns a rotation that rotates z degrees around z-axis
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+                
+                // Get the new move direction using new targetAngle which includes angles from playerCamera
+                Vector3 moveDirection = Quaternion.Euler(0f,targetAngle,0f) * Vector3.forward;
+
+                // Now using character controller, we will move the player
+                cC.Move(moveDirection.normalized * playerSprint * Time.deltaTime);            
+            }    
         }
     }
 }
