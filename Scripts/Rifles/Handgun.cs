@@ -12,6 +12,8 @@ public class Handgun : MonoBehaviour
     // This is the range that one bullet or a ray cast of the hand gun will reach
     // Basically restrict shooting as we don't want to shoot to infinity distance
     public float shootingRange = 100f;
+    // Transform for hand
+    public Transform hand;
 
     // Adding FireCharge
     // It means that out player will shoot quickly
@@ -50,6 +52,9 @@ public class Handgun : MonoBehaviour
 
 
     private void Awake(){
+        // Set hand as the parent of the hand gun
+        // basically it will make this handgun child of this hand
+        transform.SetParent(hand);
         // Whenever we play the game, we want the cursor to be locked
         Cursor.lockState = CursorLockMode.Locked;
         // Whenever the game starts, present ammo will be maximum
