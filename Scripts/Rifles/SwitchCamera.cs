@@ -18,7 +18,7 @@ public class SwitchCamera : MonoBehaviour
     private void Update(){
         // If we press mouse right button and if we are walking
         // Meaning if we are aiming and moving at the same time than what we want to do
-        if(Input.GetButton("Fire2") && Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)){
+        if(Input.GetButton("Fire2") && (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))){
             // We want the 3rd person camera to be disabled
             ThirdPersonCam.SetActive(false);
             // Activate the aim cam
