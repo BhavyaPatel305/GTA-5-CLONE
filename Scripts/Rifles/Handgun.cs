@@ -53,6 +53,16 @@ public class Handgun : MonoBehaviour
 
     // Update Function
     private void Update(){
+        // If we are reloading, then do nothing
+        if(setReloading){
+            return;
+        }
+        // If presentAmmo is <= 0 then call Relod() function
+        if(presentAmmunition <= 0){
+            // Way to call a IEnumerator function
+            StartCoroutine(Reload());
+            return;
+        }
         // Update function is called every second, but we don't want to shoot every second
         // So whenever a player presses fire button, we shoot(left button of the mouse/cursor)
         // if time is greater than next time to shoot
@@ -118,5 +128,22 @@ public class Handgun : MonoBehaviour
                 Destroy(metalEffectGo, 1f);
             }
         }
+    }
+    // In unity, IEnumerator allows the program to yield things like wait for second function
+    // Which lets you tell the script to wait without hoping onto the CPU
+    // We can say, IEnumerator is basically used for simply pausing an iteration
+    IEnumerator Reload(){
+        // While reloading pause all other tasks and reload handgun first
+        setReloading = true;
+        // For testing purpose
+        Debug.Log("Reloading...");
+        // Wait for 4.3 seconds
+        yield return new WaitForSeconds(reloadingTime);
+        // When we are done reloading, again debug a message(for testing purpose)
+        Debug.Log("Done Reloading...");
+        // Again set the presentAmmunition to maxAmmunition
+        presentAmmunition = maximumAmmunition;
+        // When finished with reloading, set the setReloading to false
+        setReloading = false;
     }
 }
