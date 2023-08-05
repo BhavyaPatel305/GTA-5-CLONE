@@ -173,6 +173,10 @@ public class Handgun : MonoBehaviour
 
         // direction.magnitude >= 0.1f meaning player is moving
         if(direction.magnitude >= 0.1f){
+            // Animation for player moving in forward direction
+            // When we are walking we don't want run to be tru
+            animator.SetBool("WalkForward", true);
+            animator.SetBool("RunForward", false);
             // Adding rotation to the player
             // Atan2() function will convert angle into radians
             // Rad2Deg will convert radians to degrees
@@ -198,6 +202,9 @@ public class Handgun : MonoBehaviour
             // As jumping animation is getting cut-off
             jumpRange = 0f;
         }else{
+            // If player not moving then set walk and run animations false
+            animator.SetBool("WalkForward", false);
+            animator.SetBool("RunForward", false);
             // When player is not moving, we will set the jump range back to 2f
             // As jumping animation is getting cut-off
             jumpRange = 1f; 
@@ -209,7 +216,16 @@ public class Handgun : MonoBehaviour
         // Here "Jump" is this jump, say in there if instead of space key we change some other key for "Jump" then we would not have to do any changes in this code
         // If jump key is pressed and player is on surface then jump
         if(Input.GetButtonDown("Jump") && onSurface){
+            // On Jumping set the idelAim false(means disable idle script)
+            animator.SetBool("IdleAim", false);
+            // Trigger jump animation
+            animator.SetTrigger("Jump");
+
             velocity.y = Mathf.Sqrt(jumpRange * -2 * gravity);
+        }else{
+            // Start the Idle player animation
+            animator.SetBool("IdleAim", true);
+            animator.ResetTrigger("Jump");
         }
     }
     // Adding sprinting/running functionality to the player
@@ -233,6 +249,11 @@ public class Handgun : MonoBehaviour
 
             // direction.magnitude >= 0.1f meaning player is moving
             if(direction.magnitude >= 0.1f){
+                // When we are running, we don't walk animation so set it to false
+                animator.SetBool("WalkForward", false);
+                // Start running animation
+                animator.SetBool("RunForward", true);
+
                 // Adding rotation to the player
                 // Atan2() function will convert angle into radians
                 // Rad2Deg will convert radians to degrees
@@ -258,6 +279,10 @@ public class Handgun : MonoBehaviour
                 // As jumping animation is getting cut-off
                 jumpRange = 0f;           
             }else{
+                // If player is not running, start the walking animation and stop running animation
+                animator.SetBool("WalkForward", true);
+                animator.SetBool("RunForward", false);
+
                 // When player is not moving, we will set the jump range back to 2f
                 // As jumping animation is getting cut-off
                 jumpRange = 1f; 
