@@ -38,6 +38,18 @@ public class Handgun : MonoBehaviour
         if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hitInfo, shootingRange)){
             // For now simply print the name of the object we hit in the console
             Debug.Log(hitInfo.transform.name);
+
+            // Reference
+            // Here Object is the Object.cs script
+            // here we are simply saying that if we hit whatever object than that object has this Object.cs script(Which is used to give damage to any object)
+            Object obj = hitInfo.transform.GetComponent<Object>();
+            // If that object has Object script attached to itself than what we want to do
+            // If object script is found
+            if(obj != null){
+                // We want to give damage to that object, so we call objectHitDamage() method from Object.cs file
+                // and the amount of damage will be: giveDamage variable
+                obj.objectHitDamage(giveDamage);
+            }
         }
     }
 }
