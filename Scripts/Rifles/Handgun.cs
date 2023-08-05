@@ -43,6 +43,12 @@ public class Handgun : MonoBehaviour
     // If the object being hit is a metal object than we have metalEffect
     public GameObject metalEffect;
 
+    // Adding Ammo Out UI(Print Ammo Out Message on the screen)
+    [Header("Sounds & UI")]
+    // Reference to ammo out canvas
+    public GameObject AmmoOutUI;
+
+
     private void Awake(){
         // Whenever we play the game, we want the cursor to be locked
         Cursor.lockState = CursorLockMode.Locked;
@@ -90,8 +96,9 @@ public class Handgun : MonoBehaviour
         // If mag = 0 means no magazine is left, then show the ammo out text/UI
         if(mag == 0){
             // Show the ammo out text/UI
+            StartCoroutine(ShowAmmoOut());
+            return;
         }
-
 
         // Whenever Shoot() method is called, play the muzzle spark
         muzzleSpark.Play();
@@ -145,5 +152,14 @@ public class Handgun : MonoBehaviour
         presentAmmunition = maximumAmmunition;
         // When finished with reloading, set the setReloading to false
         setReloading = false;
+    }
+    // Function to display Ammo Out Message on the screen
+    IEnumerator ShowAmmoOut(){
+        // Set the Ammo out UI active
+        AmmoOutUI.SetActive(true);
+        // For 5 seconds
+        yield return new WaitForSeconds(5f);
+        // After that remove Ammo Out UI
+        AmmoOutUI.SetActive(false);
     }
 }
