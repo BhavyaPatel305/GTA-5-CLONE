@@ -64,6 +64,10 @@ public class Handgun : MonoBehaviour
     public Transform hand;
     // Solving the problem of player not turning
     public Transform PlayerTransform;
+    // Reference to handgun2 script
+    public Handgun2 handgun2;
+    // If player is shooting, player should not move and if player is not shooting it can move
+    public bool isMoving;
 
     // Adding FireCharge
     // It means that out player will shoot quickly
@@ -147,21 +151,25 @@ public class Handgun : MonoBehaviour
             StartCoroutine(Reload());
             return;
         }
-        // Update function is called every second, but we don't want to shoot every second
-        // So whenever a player presses fire button, we shoot(left button of the mouse/cursor)
-        // if time is greater than next time to shoot
-        if(Input.GetButton("Fire1") && Time.time >= nextTimeToShoot){
-            // Animations for shooting
-            animator.SetBool("Shoot", true);
-            // Then
-            // If fireCharge = 1, means that every 1 second we fire 1 bullet, handgun/player shoots
-            // 2 means we fire 2 bullets in 1 second
-            nextTimeToShoot =  Time.time + 1f/fireCharge;
-            Shoot();
-        }else{
-            // If player not shooting
-            animator.SetBool("Shoot", false);
+        // If player is not moving, then allow the player to shoot
+        if(isMoving == false){
+            // Update function is called every second, but we don't want to shoot every second
+            // So whenever a player presses fire button, we shoot(left button of the mouse/cursor)
+            // if time is greater than next time to shoot
+            if(Input.GetButton("Fire1") && Time.time >= nextTimeToShoot){
+                // Animations for shooting
+                animator.SetBool("Shoot", true);
+                // Then
+                // If fireCharge = 1, means that every 1 second we fire 1 bullet, handgun/player shoots
+                // 2 means we fire 2 bullets in 1 second
+                nextTimeToShoot =  Time.time + 1f/fireCharge;
+                Shoot();
+            }else{
+                // If player not shooting
+                animator.SetBool("Shoot", false);
+            }
         }
+        
     }
     // FROM PLAYER SCRIPT
     // Method to move the player
@@ -208,6 +216,10 @@ public class Handgun : MonoBehaviour
             // If the player is moving, set jumpRange to 0f
             // As jumping animation is getting cut-off
             jumpRange = 0f;
+            // Since player is moving, set isMoving to true
+            isMoving = true;
+            // Also update the isMoving variable
+            handgun2.isMoving = true;
         }else{
             // If player not moving then set walk and run animations false
             animator.SetBool("WalkForward", false);
@@ -215,6 +227,10 @@ public class Handgun : MonoBehaviour
             // When player is not moving, we will set the jump range back to 2f
             // As jumping animation is getting cut-off
             jumpRange = 1f; 
+            // Since player is not moving, set isMoving to false
+            isMoving = false;
+            // Also update the isMoving variable
+            handgun2.isMoving = false;
         }
     }
     // Adding Jump to the player
@@ -284,7 +300,11 @@ public class Handgun : MonoBehaviour
 
                 // If the player is moving, set jumpRange to 0f
                 // As jumping animation is getting cut-off
-                jumpRange = 0f;           
+                jumpRange = 0f;   
+                // Since player is moving, set isMoving to true
+                isMoving = true;
+                // Also update the isMoving variable
+                handgun2.isMoving = true;        
             }else{
                 // If player is not running, start the walking animation and stop running animation
                 animator.SetBool("WalkForward", true);
@@ -293,6 +313,10 @@ public class Handgun : MonoBehaviour
                 // When player is not moving, we will set the jump range back to 2f
                 // As jumping animation is getting cut-off
                 jumpRange = 1f; 
+                // Since player is not moving, set isMoving to false
+                isMoving = false;
+                // Also update the isMoving variable
+                handgun2.isMoving = false;
             }    
         }
     }
@@ -357,6 +381,10 @@ public class Handgun : MonoBehaviour
     // Which lets you tell the script to wait without hoping onto the CPU
     // We can say, IEnumerator is basically used for simply pausing an iteration
     IEnumerator Reload(){
+        // while reloading we don't want the player to move
+        // So make playerSpeed and playerSprintSpeed = 0
+        playerSpeed = 0;
+        playerSprint = 0;
         // While reloading pause all other tasks and reload handgun first
         setReloading = true;
         // For testing purpose
@@ -373,6 +401,9 @@ public class Handgun : MonoBehaviour
         presentAmmunition = maximumAmmunition;
         // When finished with reloading, set the setReloading to false
         setReloading = false;
+        // After player is done reloading, we will reset the player speed to normal
+        playerSpeed = 1.1f;
+        playerSprint = 5f;
     }
     // Function to display Ammo Out Message on the screen
     IEnumerator ShowAmmoOut(){

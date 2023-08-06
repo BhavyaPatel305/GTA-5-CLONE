@@ -16,6 +16,8 @@ public class Handgun2 : MonoBehaviour
     public float shootingRange = 100f;
     // Transform for hand
     public Transform hand;
+    // If player is shooting, player should not move and if player is not shooting it can move
+    public bool isMoving;
 
     // Adding FireCharge
     // It means that out player will shoot quickly
@@ -74,15 +76,18 @@ public class Handgun2 : MonoBehaviour
             StartCoroutine(Reload());
             return;
         }
-        // Update function is called every second, but we don't want to shoot every second
-        // So whenever a player presses fire button, we shoot(left button of the mouse/cursor)
-        // if time is greater than next time to shoot
-        if(Input.GetButton("Fire1") && Time.time >= nextTimeToShoot){
-            // Then
-            // If fireCharge = 1, means that every 1 second we fire 1 bullet, handgun/player shoots
-            // 2 means we fire 2 bullets in 1 second
-            nextTimeToShoot =  Time.time + 1f/fireCharge;
-            Shoot();
+         // If player is not moving, then allow the player to shoot
+        if(isMoving == false){
+            // Update function is called every second, but we don't want to shoot every second
+            // So whenever a player presses fire button, we shoot(left button of the mouse/cursor)
+            // if time is greater than next time to shoot
+            if(Input.GetButton("Fire1") && Time.time >= nextTimeToShoot){
+                // Then
+                // If fireCharge = 1, means that every 1 second we fire 1 bullet, handgun/player shoots
+                // 2 means we fire 2 bullets in 1 second
+                nextTimeToShoot =  Time.time + 1f/fireCharge;
+                Shoot();
+            }
         }
     }
 
