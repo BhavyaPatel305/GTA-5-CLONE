@@ -66,8 +66,8 @@ public class UZI : MonoBehaviour
     public Transform hand;
     // Solving the problem of player not turning
     public Transform PlayerTransform;
-    // Reference to handgun2 script
-    //public Handgun2 handgun2;
+    // Reference to UZI2 script
+    public UZI2 uzi2;
     // If player is shooting, player should not move and if player is not shooting it can move
     public bool isMoving;
 
@@ -221,7 +221,7 @@ public class UZI : MonoBehaviour
             // Since player is moving, set isMoving to true
             isMoving = true;
             // Also update the isMoving variable
-            //handgun2.isMoving = true;
+            uzi2.isMoving = true;
         }else{
             // If player not moving then set walk and run animations false
             animator.SetBool("WalkForward", false);
@@ -232,7 +232,7 @@ public class UZI : MonoBehaviour
             // Since player is not moving, set isMoving to false
             isMoving = false;
             // Also update the isMoving variable
-            //handgun2.isMoving = false;
+            uzi2.isMoving = false;
         }
     }
     // Adding Jump to the player
@@ -306,7 +306,7 @@ public class UZI : MonoBehaviour
                 // Since player is moving, set isMoving to true
                 isMoving = true;
                 // Also update the isMoving variable
-                //handgun2.isMoving = true;        
+                uzi2.isMoving = true;        
             }else{
                 // If player is not running, start the walking animation and stop running animation
                 animator.SetBool("WalkForward", true);
@@ -318,7 +318,7 @@ public class UZI : MonoBehaviour
                 // Since player is not moving, set isMoving to false
                 isMoving = false;
                 // Also update the isMoving variable
-                //handgun2.isMoving = false;
+                uzi2.isMoving = false;
             }    
         }
     }
