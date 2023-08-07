@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a5012c8fff398b6419d01c37a1565508
+guid: 7db1273a4d145da4b9bfdcfad5b75a5b
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -33,7 +33,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: IdleAimShotgun
+      name: IdleShootShotgun
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 0
@@ -526,13 +526,13 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: Humanoid@IdleAimShotgun(Clone)
+    - name: Humanoid@IdleShootShotgun(Clone)
       parentName: 
       position: {x: 0, y: 0, z: 0}
       rotation: {x: -0.00046906908, y: -0.25212172, z: 0.04307425, w: 0.96673626}
       scale: {x: 1, y: 1, z: 1}
     - name: root
-      parentName: Humanoid@IdleAimShotgun(Clone)
+      parentName: Humanoid@IdleShootShotgun(Clone)
       position: {x: -0, y: 0, z: 0}
       rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
       scale: {x: 1, y: 1, z: 1}
