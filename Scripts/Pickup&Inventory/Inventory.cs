@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    
 
     [Header("Item Slots")]
     // Reference to each rifle UI
@@ -88,6 +87,52 @@ public class Inventory : MonoBehaviour
     public GameObject inventoryPanel;
     bool isPause = false;
 
+    // Code to draw weapons based on key press
+    // If player presses 
+    // ->   1 then draw hand gun
+    // ->   2 then draw shot gun
+    // ->   3 then draw UZI
+    // ->   4 then draw Bazooka
+    private void Update(){
+        // For drawing hand gun -> Condition: Pressed 1 AND isWeapon1Picked = true
+        if(Input.GetKeyDown("1") && isWeapon1Picked == true){
+            // Set Weapon 1 as active weapon
+            isWeapon1Active = true;
+            // Set other weapons as inactive
+            isWeapon2Active = false;
+            isWeapon3Active = false;
+            isWeapon4Active = false;
+            isRifleActive();
+        // For drawing shot gun -> Condition: Pressed 2 AND isWeapon2Picked = true
+        }else if(Input.GetKeyDown("2") && isWeapon2Picked == true){
+            // Set Weapon 2 as active weapon
+            isWeapon2Active = true;
+            // Set other weapons as inactive
+            isWeapon1Active = false;
+            isWeapon3Active = false;
+            isWeapon4Active = false;
+            isRifleActive();
+        // For drawing UZI -> Condition: Pressed 3 AND isWeapon3Picked = true
+        }else if(Input.GetKeyDown("3") && isWeapon3Picked == true){
+            // Set Weapon 3 as active weapon
+            isWeapon3Active = true;
+            // Set other weapons as inactive
+            isWeapon1Active = false;
+            isWeapon2Active = false;
+            isWeapon4Active = false;
+            isRifleActive();
+        // For drawing Bazooka -> Condition: Pressed 4 AND isWeapon4Picked = true
+        }else if(Input.GetKeyDown("4") && isWeapon4Picked == true){
+            // Set Weapon 4 as active weapon
+            isWeapon4Active = true;
+            // Set other weapons as inactive
+            isWeapon1Active = false;
+            isWeapon3Active = false;
+            isWeapon2Active = false;
+            isRifleActive();
+        }
+    }
+    
     // Code to check if the player picks uo a rifle or not
     // then show the rifle in the player hand
     // according to the rifle, enable the specific script which is in relation with the rifle
@@ -98,9 +143,117 @@ public class Inventory : MonoBehaviour
     // -> Enable the inventory
     // -> Enable the handgun script
     void isRifleActive(){
+        // If Weapon 1 is active -> HandGun
+        if(isWeapon1Active){
+            // Right hand
+            HandGun1.SetActive(true);
+            // Left hand
+            HandGun2.SetActive(true);
 
+            // Deactivate other weapons
+            ShotGun.SetActive(false);
+            UZI1.SetActive(false);
+            UZI2.SetActive(false);
+            Bazooka.SetActive(false);
+
+            // After showing weapon in player's hands, enable the script for it as well
+            // When handgun script is activated, disable all other scripts
+
+            // Enable handgun
+            playerScript.GetComponent<PlayerScript>().enabled = false;
+            shotgunScript.GetComponent<Shortgun>().enabled = false;
+            
+            handgun1Script.GetComponent<Handgun>().enabled = true;
+            handgun2Script.GetComponent<Handgun2>().enabled = true;
+
+            uzi1Script.GetComponent<UZI>().enabled = false;
+            uzi2Script.GetComponent<UZI2>().enabled = false;
+            bazooka.GetComponent<Bazooka>().enabled = false;
+        }
+        // If Weapon 2 is active -> ShotGun
+        else if(isWeapon2Active){
+            // Activate Shotgun
+            ShotGun.SetActive(true);
+
+            // Deactivate other weapons
+            // Right hand
+            HandGun1.SetActive(false);
+            // Left hand
+            HandGun2.SetActive(false);
+            UZI1.SetActive(false);
+            UZI2.SetActive(false);
+            Bazooka.SetActive(false);
+
+            // After showing weapon in player's hands, enable the script for it as well
+            // When Shotgun script is activated, disable all other scripts
+
+            // Enable ShotGun
+            playerScript.GetComponent<PlayerScript>().enabled = false;
+            shotgunScript.GetComponent<Shortgun>().enabled = true;
+            
+            handgun1Script.GetComponent<Handgun>().enabled = false;
+            handgun2Script.GetComponent<Handgun2>().enabled = false;
+
+            uzi1Script.GetComponent<UZI>().enabled = false;
+            uzi2Script.GetComponent<UZI2>().enabled = false;
+            bazooka.GetComponent<Bazooka>().enabled = false;
+        }
+        // If Weapon 3 is active -> HandGun
+        else if(isWeapon3Active){
+            // Right hand
+            UZI1.SetActive(true);
+            // Left hand
+            UZI2.SetActive(true);
+
+            // Deactivate other weapons
+            ShotGun.SetActive(false);
+            HandGun1.SetActive(false);
+            HandGun2.SetActive(false);
+            Bazooka.SetActive(false);
+
+            // After showing weapon in player's hands, enable the script for it as well
+            // When UZI script is activated, disable all other scripts
+
+            // Enable UZI
+            playerScript.GetComponent<PlayerScript>().enabled = false;
+            shotgunScript.GetComponent<Shortgun>().enabled = false;
+            
+            handgun1Script.GetComponent<Handgun>().enabled = false;
+            handgun2Script.GetComponent<Handgun2>().enabled = false;
+
+            uzi1Script.GetComponent<UZI>().enabled = true;
+            uzi2Script.GetComponent<UZI2>().enabled = true;
+
+            bazooka.GetComponent<Bazooka>().enabled = false;
+        }
+        // If Weapon 4 is active -> ShotGun
+        else if(isWeapon4Active){
+            // Activate Bazooka
+            Bazooka.SetActive(true);
+
+            // Deactivate other weapons
+            // Right hand
+            HandGun1.SetActive(false);
+            // Left hand
+            HandGun2.SetActive(false);
+            UZI1.SetActive(false);
+            UZI2.SetActive(false);
+            ShotGun.SetActive(false);
+
+            // After showing weapon in player's hands, enable the script for it as well
+            // When Bazooka script is activated, disable all other scripts
+
+            // Enable Bazooka
+            playerScript.GetComponent<PlayerScript>().enabled = false;
+            shotgunScript.GetComponent<Shortgun>().enabled = false;
+            
+            handgun1Script.GetComponent<Handgun>().enabled = false;
+            handgun2Script.GetComponent<Handgun2>().enabled = false;
+
+            uzi1Script.GetComponent<UZI>().enabled = false;
+            uzi2Script.GetComponent<UZI2>().enabled = false;
+            bazooka.GetComponent<Bazooka>().enabled = true;
+        }
     }
-   
-
 }
     
