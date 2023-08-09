@@ -20,4 +20,50 @@ public class PickupItem : MonoBehaviour
     [Header("Player Info")]
     // Reference to player script, whenever player pick's up an item, we will deduct money from player's account according to item price
     public Player player;
+
+    // Whenever the game starts, we want to find all of the item tags
+    // And assign tags to itemTag variable
+    private void Start(){
+        // Using itemTag we will get to know which weapon is being picked up
+        itemToPick = GameObject.FindWithTag(itemTag);
+    }
+
+    private void Update(){
+        // Check if player is inside the item radius or not
+        // transform.position: Rifle Position
+        // player.transform.position: player position
+        if(Vector3.Distance(transform.position, player.transform.position) < itemRadius){
+            // If player is within item radius, allow player to pickup rifle using f button
+            if(Input.GetKeyDown("f")){
+                // Check if player has enough money to buy rifle
+                if(itemPrice > player.playerMoney){
+                    // if player doesn't have enough money
+                    Debug.Log("You are broke");
+                    // Show UI
+                }else{
+                    // If player has enough money, allow player to pickup item
+                    if(itemTag == "HandGunPickup"){
+                        // Deduct money from player account
+                        player.playerMoney -= itemPrice;
+                        Debug.Log(itemTag);
+                    }else if(itemTag == "ShortGunPickup"){
+                        // Deduct money from player account
+                        player.playerMoney -= itemPrice;
+                        Debug.Log(itemTag);
+                    }else if(itemTag == "UziPickup"){
+                        // Deduct money from player account
+                        player.playerMoney -= itemPrice;
+                        Debug.Log(itemTag);
+                    }else if(itemTag == "BazookaPickup"){
+                        // Deduct money from player account
+                        player.playerMoney -= itemPrice;
+                        Debug.Log(itemTag);
+                    }
+                    // Whatever rifle player pick's up, remove that rifle from the environment
+                    itemToPick.SetActive(false);
+                }
+                
+            }
+        }
+    }
 }
