@@ -94,6 +94,18 @@ public class Inventory : MonoBehaviour
     // ->   3 then draw UZI
     // ->   4 then draw Bazooka
     private void Update(){
+        // If user presses tab key, then show the inventory
+        if(Input.GetKeyDown("tab")){
+            Debug.Log("TAB KEY IS PRESSED");
+            // If isPause true meaning, game is paused 
+            // then call hide Inventory method
+            if(isPause == true){
+                hideInventory();
+            }// Else call showInventory() method
+            else{
+                showInventory();
+            }
+        }
         // For drawing hand gun -> Condition: Pressed 1 AND isWeapon1Picked = true
         if(Input.GetKeyDown("1") && isWeapon1Picked == true){
             // Set Weapon 1 as active weapon
@@ -254,6 +266,28 @@ public class Inventory : MonoBehaviour
             uzi2Script.GetComponent<UZI2>().enabled = false;
             bazooka.GetComponent<Bazooka>().enabled = true;
         }
+    }
+    // Function to show and hide inventory
+    void showInventory(){
+        // Set inventory panel to be true
+        inventoryPanel.SetActive(true);
+
+        // When inventory is active, we want the game to pause
+        Time.timeScale = 0f;
+
+        // Bool variable to check if game is paused or not
+        isPause = true;
+    }
+
+    void hideInventory(){
+        // Set inventory panel to be false
+        inventoryPanel.SetActive(false);
+
+        // When inventory is not active, we want the game to continue
+        Time.timeScale = 1f;
+
+        // Bool variable to check if game is paused or not
+        isPause = false;
     }
 }
     
