@@ -87,6 +87,12 @@ public class Inventory : MonoBehaviour
     public GameObject inventoryPanel;
     bool isPause = false;
 
+    // Fixing Issue: Camera should not move when player opens Inventory UI
+    // References to Camera's
+    public SwitchCamera camera;
+    public GameObject AimCam;
+    public GameObject ThirdPersonCam;
+
     // Code to draw weapons based on key press
     // If player presses 
     // ->   1 then draw hand gun
@@ -269,6 +275,12 @@ public class Inventory : MonoBehaviour
     }
     // Function to show and hide inventory
     void showInventory(){
+        // When showing Inventory, Disable switch camera script
+        camera.GetComponent<SwitchCamera>().enabled = false;
+        // Disable 3rd person camera and Aim Cam
+        ThirdPersonCam.SetActive(false);
+        AimCam.SetActive(false);
+
         // Set inventory panel to be true
         inventoryPanel.SetActive(true);
 
@@ -280,6 +292,12 @@ public class Inventory : MonoBehaviour
     }
 
     void hideInventory(){
+        // When hiding Inventory, Enable switch camera script
+        camera.GetComponent<SwitchCamera>().enabled = true;
+        // Enable 3rd person camera and Aim Cam
+        ThirdPersonCam.SetActive(true);
+        AimCam.SetActive(true);
+
         // Set inventory panel to be false
         inventoryPanel.SetActive(false);
 

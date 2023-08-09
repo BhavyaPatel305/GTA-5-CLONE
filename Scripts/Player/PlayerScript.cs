@@ -40,9 +40,21 @@ public class PlayerScript : MonoBehaviour
     bool onSurface;
     public float surfaceDistance = 0.4f;
     public LayerMask surfaceMask;
+    // Bool variable to set the playerController to player
+    bool playerActive = true;
+
+    // We want to lock the cursor as when we begin the game, if you move mouse it causes difficult in playing game
+    private void Awake(){
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     // Update Function
     private void Update(){
+        // If Handgun is active, then change the animator at run time
+        if(playerActive == true){
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("PlayerController");
+        }
+
         // Check if the player is on the surface or not
         onSurface = Physics.CheckSphere(surfaceCheck.position, surfaceDistance, surfaceMask);
 
