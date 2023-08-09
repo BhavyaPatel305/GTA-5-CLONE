@@ -104,6 +104,10 @@ public class Shortgun : MonoBehaviour
     [Header("Sounds & UI")]
     // Reference to ammo out canvas
     public GameObject AmmoOutUI;
+    // Check if player has picked Up Shotgun(From Pickups)
+    // So whenever Shotgun.cs script is enabled from Inventory.cs script
+    // it sets Shotgun Active to true
+    bool ShotgunActive = true;
 
 
     private void Awake(){
@@ -119,6 +123,10 @@ public class Shortgun : MonoBehaviour
 
     // Update Function
     private void Update(){
+        // If Shotgun is active, then change the animator at run time
+        if(ShotgunActive == true){
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("ShotgunAnimator");
+        }
         // FROM PLAYER SCRIPT
 
         // Check if the player is on the surface or not

@@ -104,6 +104,10 @@ public class Bazooka : MonoBehaviour
     [Header("Sounds & UI")]
     // Reference to ammo out canvas
     public GameObject AmmoOutUI;
+    // Check if player has picked Up Bazooka(From Pickups)
+    // So whenever Bazooka.cs script is enabled from Inventory.cs script
+    // it sets Bazooka Active to true
+    bool BazookaActive = true;
 
 
     private void Awake(){
@@ -119,6 +123,10 @@ public class Bazooka : MonoBehaviour
 
     // Update Function
     private void Update(){
+        // If Bazooka is active, then change the animator at run time
+        if(BazookaActive == true){
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("BazookaAnimator");
+        }
         // FROM PLAYER SCRIPT
 
         // Check if the player is on the surface or not

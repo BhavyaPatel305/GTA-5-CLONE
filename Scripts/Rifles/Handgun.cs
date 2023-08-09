@@ -103,6 +103,10 @@ public class Handgun : MonoBehaviour
     [Header("Sounds & UI")]
     // Reference to ammo out canvas
     public GameObject AmmoOutUI;
+    // Check if player has picked Up handgun(From Pickups)
+    // So whenever Handgun.cs script is enabled from Inventory.cs script
+    // it sets Handgun Active to true
+    bool HandgunActive = true;
 
 
     private void Awake(){
@@ -118,6 +122,10 @@ public class Handgun : MonoBehaviour
 
     // Update Function
     private void Update(){
+        // If Handgun is active, then change the animator at run time
+        if(HandgunActive == true){
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("GunAnimator");
+        }
         // FROM PLAYER SCRIPT
 
         // Check if the player is on the surface or not

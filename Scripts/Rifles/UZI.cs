@@ -105,6 +105,10 @@ public class UZI : MonoBehaviour
     [Header("Sounds & UI")]
     // Reference to ammo out canvas
     public GameObject AmmoOutUI;
+    // Check if player has picked Up UZI(From Pickups)
+    // So whenever UZI.cs script is enabled from Inventory.cs script
+    // it sets UZI Active to true
+    bool UZIActive = true;
 
 
     private void Awake(){
@@ -120,6 +124,10 @@ public class UZI : MonoBehaviour
 
     // Update Function
     private void Update(){
+        // If UZI is active, then change the animator at run time
+        if(UZIActive == true){
+            animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>("UziAnimator");
+        }
         // FROM PLAYER SCRIPT
 
         // Check if the player is on the surface or not
