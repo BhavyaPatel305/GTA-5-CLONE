@@ -38,27 +38,69 @@ public class Inventory : MonoBehaviour
     // Check if the weapon is active or not
     public bool isWeapon4Active = false;
 
+    // Reference to all the weapons inside the players left and right hand
+    // Reference to all the weapons inside the players left and right hand
+    // In Unity -> Player -> Left Hand -> Left Hand Thumb -> Rifle Holder -> We have 4 weapons(We need reference of these 4 weapons) 
+    // Similarly for right hand
 
-   // Reference to all the weapons inside the players left and right hand
-   // In Unity -> Player -> Left Hand -> Left Hand Thumb -> Rifle Holder -> We have 4 weapons(We need reference of these 4 weapons) 
-   // Similarly for right hand
+    // Using Weapon UI, as soon as player picks up a weapon, show Weapon UI in Inventory
+    // Using Weapon references in Hand, as soon as player picks up a weapon, show that weapon in players hands
+    [Header("Weapons to Use")]
+    // We have 2 hand guns(left hand & right hand)
+    public GameObject HandGun1;
+    public GameObject HandGun2; 
 
-   // Using Weapon UI, as soon as player picks up a weapon, show Weapon UI in Inventory
-   // Using Weapon references in Hand, as soon as player picks up a weapon, show that weapon in players hands
-   [Header("Weapons to Use")]
-   // We have 2 hand guns(left hand & right hand)
-   public GameObject HandGun1;
-   public GameObject HandGun2; 
+    // Shot gun
+    public GameObject ShotGun;
 
-   // Shot gun
-   public GameObject ShotGun;
+    // UZI
+    // We have 2 UZI's (left hand & right hand)
+    public GameObject UZI1;
+    public GameObject UZI2;
 
-   // UZI
-   // We have 2 UZI's (left hand & right hand)
-   public GameObject UZI1;
-   public GameObject UZI2;
+    // Bazooka
+    public GameObject Bazooka;
 
-   // Bazooka
-   public GameObject Bazooka;
+    // References to all scripts
+    // So if player is not holding any weapon, then player script is active
+    // If player is holding handgun, then handgun script is active and accordingly
+    // So that whatever weapon player chooses, we play appropriate animations
+    [Header("Scripts")]
+    // Player Script
+    public PlayerScript playerScript;
+    // Short Gun Script
+    public Shortgun shotgunScript;
+    // Hand Gun
+    // Right Hand
+    public Handgun handgun1Script;
+    // Left Hand
+    public Handgun2 handgun2Script;
+    // UZI
+    // Right Hand
+    public UZI uzi1Script;
+    // Left Hand
+    public UZI2 uzi2Script;
+    // Bazooka
+    public Bazooka bazooka;
+
+    // Adding all variable in relation to the inventory
+    [Header("Inventory")]
+    public GameObject inventoryPanel;
+    bool isPause = false;
+
+    // Code to check if the player picks uo a rifle or not
+    // then show the rifle in the player hand
+    // according to the rifle, enable the specific script which is in relation with the rifle
+
+    // If player picks Hand gun
+    // -> Show handgun in inventory
+    // -> Show it in players hands
+    // -> Enable the inventory
+    // -> Enable the handgun script
+    void isRifleActive(){
+
+    }
+   
+
 }
     

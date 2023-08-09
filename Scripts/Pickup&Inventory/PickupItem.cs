@@ -21,6 +21,9 @@ public class PickupItem : MonoBehaviour
     // Reference to player script, whenever player pick's up an item, we will deduct money from player's account according to item price
     public Player player;
 
+    // Reference to Inventory Script, to change values of boolean variables like isWeaponPicked to true or false
+    public Inventory inventory;
+
     // Whenever the game starts, we want to find all of the item tags
     // And assign tags to itemTag variable
     private void Start(){
@@ -45,24 +48,43 @@ public class PickupItem : MonoBehaviour
                     if(itemTag == "HandGunPickup"){
                         // Deduct money from player account
                         player.playerMoney -= itemPrice;
+                        //Activate the Hand Gun UI in the inventory
+                        inventory.Weapon1.SetActive(true);
+                        // Change the boolean value of isWeapon1PickedUp to true
+                        inventory.isWeapon1Picked = true;
+                        // Printing weapon name on console
                         Debug.Log(itemTag);
                     }else if(itemTag == "ShortGunPickup"){
                         // Deduct money from player account
                         player.playerMoney -= itemPrice;
+                        //Activate the Short Gun UI in the inventory
+                        inventory.Weapon2.SetActive(true);
+                        // Change the boolean value of isWeapon2PickedUp to true
+                        inventory.isWeapon2Picked = true;
+                        // Printing weapon name on console
                         Debug.Log(itemTag);
                     }else if(itemTag == "UziPickup"){
                         // Deduct money from player account
                         player.playerMoney -= itemPrice;
+                        //Activate the UZI UI in the inventory
+                        inventory.Weapon3.SetActive(true);
+                        // Change the boolean value of isWeapon3PickedUp to true
+                        inventory.isWeapon3Picked = true;
+                        // Printing weapon name on console
                         Debug.Log(itemTag);
                     }else if(itemTag == "BazookaPickup"){
                         // Deduct money from player account
                         player.playerMoney -= itemPrice;
+                        //Activate the Hand Bazooka UI in the inventory
+                        inventory.Weapon4.SetActive(true);
+                        // Change the boolean value of isWeapon4PickedUp to true
+                        inventory.isWeapon4Picked = true;
+                        // Printing weapon name on console
                         Debug.Log(itemTag);
                     }
                     // Whatever rifle player pick's up, remove that rifle from the environment
                     itemToPick.SetActive(false);
                 }
-                
             }
         }
     }
