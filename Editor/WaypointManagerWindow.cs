@@ -1,18 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class WaypointManagerWindow : MonoBehaviour
+// This will be way point editor
+public class WaypointManagerWindow : EditorWindow
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    [MenuItem("Waypoint/Waypoints Editor Tools")]
+    public static void ShowWindow(){
+        GetWindow<WaypointManagerWindow>("Waypoints Editor Tools");
     }
 }
