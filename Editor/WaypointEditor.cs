@@ -20,5 +20,9 @@ public class WaypointEditor : Editor
         }
         // Draw a circle around way point of size 0.1f
         Gizmos.DrawSphere(waypoint.transform.position, 0.1f);
+
+        // Draw a white line for way point width
+        Gizmos.color = Color.white;
+        Gizmos.DrawLine(waypoint.transform.position + (waypoint.transform.right * waypoint.waypointWidth/2f), (waypoint.transform.position - (waypoint.transform.right * waypoint.waypointWidth/2f)));
     }
 }
